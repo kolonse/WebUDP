@@ -91,8 +91,14 @@ static void HandleHttpRequest(WuHost* host, WuConnectionBuffer* conn) {
     const char* path;
     size_t methodLength, pathLength;
     int minorVersion;
-    struct phr_header headers[16];
-    size_t numHeaders = 16;
+    struct phr_header headers[50];
+    size_t numHeaders = 50;
+    for (size_t i = 0; i < 50;i ++) {
+      headers[i].name = NULL;
+      headers[i].name_len = 0;
+      headers[i].value = NULL;
+      headers[i].value_len = 0;
+    }
     int parseStatus = phr_parse_request(
         (const char*)conn->requestBuffer, conn->size, &method, &methodLength,
         &path, &pathLength, &minorVersion, headers, &numHeaders, prevSize);
